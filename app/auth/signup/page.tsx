@@ -29,7 +29,13 @@ export default function SignupPage() {
   const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
-    fetch("/api/org/schools").then((r) => r.json()).then((d) => setSchools(d.schools ?? []));
+    fetch("/api/org/schools").then((r) => r.json()).then((d) => {
+      const list: School[] = d.schools ?? [];
+      setSchools(list);
+      if (list.length === 1) {
+        setForm((f) => ({ ...f, schoolId: list[0].id }));
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -129,10 +135,14 @@ export default function SignupPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">학교</label>
-              <select name="schoolId" value={form.schoolId} onChange={handleChange} className="input-field">
-                <option value="">학교 선택</option>
-                {schools.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
+              {schools.length === 1 ? (
+                <div className="input-field bg-gray-100 text-gray-700 cursor-default">{schools[0].name}</div>
+              ) : (
+                <select name="schoolId" value={form.schoolId} onChange={handleChange} className="input-field">
+                  <option value="">학교 선택</option>
+                  {schools.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </select>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">단과대</label>
