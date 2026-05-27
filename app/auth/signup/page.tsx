@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-interface School { id: string; name: string }
 interface College { id: string; name: string; school_id: string }
 interface Department { id: string; name: string; college_id: string }
 
@@ -19,34 +18,20 @@ export default function SignupPage() {
     email: "",
     password: "",
     name: "",
-    schoolId: "",
+    schoolId: "00000000-0000-0000-0000-000000000001",
     collegeId: "",
     departmentId: "",
   });
 
-  const [schools, setSchools] = useState<School[]>([]);
+  const SCHOOL_ID = "00000000-0000-0000-0000-000000000001";
+  const SCHOOL_NAME = "충북대학교";
+
   const [colleges, setColleges] = useState<College[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
-    fetch("/api/org/schools").then((r) => r.json()).then(async (d) => {
-      const list: School[] = d.schools ?? [];
-      setSchools(list);
-      if (list.length >= 1) {
-        const schoolId = list[0].id;
-        setForm((f) => ({ ...f, schoolId }));
-        const cr = await fetch(`/api/org/colleges?schoolId=${schoolId}`);
-        const cd = await cr.json();
-        setColleges(cd.colleges ?? []);
-      }
-    });
+    fetch(`/api/org/colleges?schoolId=${SCHOOL_ID}`).then((r) => r.json()).then((d) => setColleges(d.colleges ?? []));
   }, []);
-
-  useEffect(() => {
-    if (!form.schoolId) return;
-    fetch(`/api/org/colleges?schoolId=${form.schoolId}`).then((r) => r.json()).then((d) => setColleges(d.colleges ?? []));
-    setForm((f) => ({ ...f, collegeId: "", departmentId: "" }));
-  }, [form.schoolId]);
 
   useEffect(() => {
     if (!form.collegeId) return;
@@ -139,14 +124,7 @@ export default function SignupPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">학교</label>
-              {schools.length === 1 ? (
-                <div className="input-field bg-gray-100 text-gray-700 cursor-default">{schools[0].name}</div>
-              ) : (
-                <select name="schoolId" value={form.schoolId} onChange={handleChange} className="input-field">
-                  <option value="">학교 선택</option>
-                  {schools.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                </select>
-              )}
+              <div className="input-field bg-gray-100 text-gray-700 cursor-default">{SCHOOL_NAME}</div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">단과대</label>
