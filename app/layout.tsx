@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "분리배출 도우미",
+  title: "분리리",
   description: "대학교 분리배출 도우미 — 바코드 스캔으로 포인트 적립",
   manifest: "/manifest.json",
 };

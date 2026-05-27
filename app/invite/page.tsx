@@ -34,7 +34,7 @@ function InviteContent() {
 
   const share = () => {
     if (navigator.share) {
-      navigator.share({ title: "분리배출 도우미 초대", text: "함께 분리배출하고 포인트 받아요!", url: inviteUrl });
+      navigator.share({ title: "분리리 초대", text: "함께 분리배출하고 포인트 받아요!", url: inviteUrl });
     } else {
       copy();
     }

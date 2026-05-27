@@ -5,7 +5,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col items-center justify-center px-6">
       <div className="text-center space-y-6 max-w-sm w-full">
         <div className="text-7xl">♻️</div>
-        <h1 className="text-3xl font-bold text-green-700">분리배출 도우미</h1>
+        <h1 className="text-3xl font-bold text-green-700">분리리</h1>
         <p className="text-gray-500 leading-relaxed">
           바코드 스캔으로 올바른 분리배출 방법을 확인하고<br />
           포인트를 적립해 단과대 랭킹에 도전하세요
