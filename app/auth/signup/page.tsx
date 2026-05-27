@@ -29,11 +29,15 @@ export default function SignupPage() {
   const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
-    fetch("/api/org/schools").then((r) => r.json()).then((d) => {
+    fetch("/api/org/schools").then((r) => r.json()).then(async (d) => {
       const list: School[] = d.schools ?? [];
       setSchools(list);
-      if (list.length === 1) {
-        setForm((f) => ({ ...f, schoolId: list[0].id }));
+      if (list.length >= 1) {
+        const schoolId = list[0].id;
+        setForm((f) => ({ ...f, schoolId }));
+        const cr = await fetch(`/api/org/colleges?schoolId=${schoolId}`);
+        const cd = await cr.json();
+        setColleges(cd.colleges ?? []);
       }
     });
   }, []);
